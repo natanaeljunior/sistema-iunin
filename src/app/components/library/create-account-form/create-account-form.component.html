@@ -1,0 +1,120 @@
+<form class="create-account-form auth-form" (submit)="onSubmit($event)">
+  <dx-form
+    [formData]="formData"
+    [showColonAfterLabel]="true"
+    [showRequiredMark]="false"
+    [disabled]="loading"
+  >
+      <dxi-item
+      dataField="nome"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Nome',
+        stylingMode: 'filled'
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Nome obrigatório."
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item
+      dataField="email"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Email',
+        stylingMode: 'filled',
+        mode: 'email',
+        value: defaultAuthData?.data?.email
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Email obrigatório."
+      ></dxi-validation-rule>
+      <dxi-validation-rule
+        type="email"
+        message="Email inválido."
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item
+      dataField="password"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        stylingMode: 'filled',
+        placeholder: 'Senha',
+        value: 'password',
+        mode: 'password'
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Senha obrigatória."
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item
+      dataField="confirmedPassword"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        stylingMode: 'filled',
+        placeholder: 'Confirmação de senha.',
+        value: 'password',
+        mode: 'password'
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Senha é obrigatória."
+      ></dxi-validation-rule>
+      <dxi-validation-rule
+        type="custom"
+        message="Senhas não são iguais."
+        [validationCallback]="confirmPassword"
+      >
+      </dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item>
+      <div class="policy-info">
+        Estou de acordo com os
+        <a [routerLink]="redirectLink">Termos Serviços</a> e
+        <a [routerLink]="redirectLink">Politica de Privacidade</a>
+      </div>
+    </dxi-item>
+
+    <dxi-item itemType="button">
+      <dxo-button-options
+        width="100%"
+        type="default"
+        [useSubmitBehavior]="true"
+        [template]="'createAccountTemplate'"
+      >
+      </dxo-button-options>
+    </dxi-item>
+
+    <ng-container *dxTemplate="let item of 'createAccountTemplate'">
+      <span class="dx-button-text">
+        <ng-container *ngIf="loading; else notLoading">
+          <dx-load-indicator
+            width="24px"
+            height="24px"
+            [visible]="true"
+          ></dx-load-indicator>
+        </ng-container>
+
+        <ng-template #notLoading>Criar nova conta</ng-template>
+      </span>
+    </ng-container>
+  </dx-form>
+  <div class="login-link">
+    Já tem uma conta? <a [routerLink]="redirectLink">Entrar</a>
+  </div>
+  <app-login-oauth></app-login-oauth>
+</form>

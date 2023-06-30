@@ -1,0 +1,127 @@
+<div class="view-wrapper" style="margin: 15px">
+
+  <dx-data-grid #dataGridClientes
+                id="clientes-grid"
+                noDataText=""
+                height="100%"
+                [dataSource]="this.dataSource"
+                [allowColumnReordering]="true"
+                [focusedRowEnabled]="true"
+                (onRowClick)="rowClick($event)"
+                (onExporting)="onExporting($event)"
+                [hoverStateEnabled]="true"
+                [showColumnLines]="true"
+                [showRowLines]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="true"
+                [editing]="{allowAdding:true, allowDeleting:true, allowUpdating:true, mode:'form', useIcons:true, refreshMode: 'full'}"
+  >
+
+    <dxo-paging [pageSize]="15"></dxo-paging>
+    <dxo-pager [visible]="true" [showPageSizeSelector]="true"></dxo-pager>
+<!--    <dxo-load-panel [showPane]="true"></dxo-load-panel>-->
+    <!--    <dxo-scrolling mode="virtual"></dxo-scrolling>-->
+    <dxo-selection
+      selectAllMode="allPages"
+      showCheckBoxesMode="always"
+      mode="single"
+    ></dxo-selection>
+    <dxo-sorting mode="multiple"></dxo-sorting>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="Pesquisar clientes"
+    ></dxo-search-panel>
+
+    <dxi-item
+      location="after"
+      locateInMenu="auto"
+      widget="dxButton"
+      showText="inMenu"
+      [options]="{
+        text: 'Atualizar',
+        icon: 'refresh',
+        onClick: refresh,
+        stylingMode: 'text'
+      }"
+    ></dxi-item>
+
+    <dxo-export
+      [enabled]="true"
+      [allowExportSelectedData]="true"
+      [formats]="['xlsx', 'pdf']"
+    >
+    </dxo-export>
+
+    <dxi-column
+      dataField="nomeCompleto"
+      caption="Nome Completo"
+      sortOrder="asc"
+    >
+      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column
+      dataField="email"
+      caption="Email"
+    >
+      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
+      <!--      <dxi-validation-rule type="email" message="Campo inválido!"></dxi-validation-rule>-->
+    </dxi-column>
+
+    <dxi-column
+      dataField="telefone"
+      caption="Telefone"
+      [customizeText]="customizePhoneCell"
+    >
+      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column
+      dataField="endereco"
+      caption="Endereço"
+    >
+      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column
+      dataField="cidade"
+      caption="Cidade"
+    >
+      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column
+      dataField="uf"
+      caption="UF"
+      [width]="80"
+    >
+
+      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
+      <dxi-validation-rule
+        type="pattern"
+        [pattern]="ufRegex"
+        message="Sigla Estado formato inválido (deve conter 2 caracteres)">
+      </dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column caption="Ações" type="buttons" [width]="110">
+      <dxi-button name="edit"></dxi-button>
+      <dxi-button name="delete"></dxi-button>
+    </dxi-column>
+
+    <dxi-column type="buttons" caption="TESTE">
+      <dxi-button icon="edit" name="Click" [onClick]="teseButon()"></dxi-button>
+    </dxi-column>
+
+  </dx-data-grid>
+
+<!--  <contact-panel-->
+<!--    [userId]="userId"-->
+<!--    [(isOpened)]="isPanelOpened"-->
+<!--    (isOpenedChange)="onOpenedChange($event)"-->
+<!--    (pinnedChange)="onPinnedChange()"-->
+<!--  >-->
+<!--  </contact-panel>-->
+</div>

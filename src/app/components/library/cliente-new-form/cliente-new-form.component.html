@@ -1,0 +1,80 @@
+<dx-form class="plain-styled-form" [screenByWidth]="getSizeQualifier">
+  <dxi-item itemType="group">
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="user"
+          label="Nome Completo"
+          [(value)]="newCliente.nomeCompleto"
+          [validators]="[{ type: 'required' }]"
+          [isEditing]="true"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="email"
+          label="Email"
+          [(value)]="newCliente.email"
+          [validators]="[{ type: 'email' }, { type: 'required' }]"
+          [isEditing]="true"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="tel"
+          mask="(00)00000-0000"
+          [(value)]="newCliente.telefone"
+          [validators]="[{ type: 'required' }]"
+          [isEditing]="true"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="home"
+          label="Endereço"
+          [(value)]="newCliente.endereco"
+          [validators]="[ { type: 'required' }]"
+          [isEditing]="true"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="home"
+          label="Cidade"
+          [(value)]="newCliente.cidade"
+          [validators]="[ { type: 'required' }]"
+          [isEditing]="true"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="map"
+          label="UF"
+          [(value)]="newCliente.uf"
+          [validators]="[ { type: 'required' }]"
+          [isEditing]="true"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+  </dxi-item>
+</dx-form>
