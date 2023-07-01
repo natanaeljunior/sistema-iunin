@@ -51,6 +51,12 @@
 
       // ##
 
+      .dx-treeview-search {
+        margin-bottom: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
       // ## Item levels customization
       .dx-treeview-node {
         &[aria-level="1"] {

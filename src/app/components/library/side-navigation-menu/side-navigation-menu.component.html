@@ -9,7 +9,13 @@
     expandEvent="click"
     (onItemClick)="onItemClick($event)"
     width="100%"
+    [searchEnabled]="menuOpened"
+    searchMode="contains"
   >
+    <div *dxTemplate="let itemData of 'item'">
+      <i class="dx-icon dx-icon-{{itemData.icon}}"></i>
+      <span>{{itemData.text}}</span>
+    </div>
   </dx-tree-view>
 </div>
 <ng-content select="app-footer"></ng-content>

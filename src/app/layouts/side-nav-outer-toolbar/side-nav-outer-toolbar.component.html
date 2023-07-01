@@ -3,7 +3,7 @@
   [menuToggleEnabled]="true"
   (menuToggle)="menuOpened = !menuOpened"
   [title]="appInfo.title"
-></app-header>
+> </app-header>
 
 <dx-drawer
   class="layout-body"
@@ -14,12 +14,12 @@
   [minSize]="minMenuSize"
   [shading]="shaderEnabled"
   [(opened)]="menuOpened"
-  se
 >
   <side-navigation-menu
 
     [compactMode]="!menuOpened"
     [selectedItem]="selectedRoute"
+    [menuOpened]="menuOpened"
     class="dx-swatch-additional"
     *dxTemplate="let dataMenu of 'panel'"
     (selectedItemChanged)="navigationChanged($event)"

@@ -1,5 +1,5 @@
 import {
-  Component, ViewChild, NgModule, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, ViewChild, NgModule
 } from '@angular/core';
 import {
   DxButtonModule,
@@ -18,7 +18,6 @@ import {
   CardActivitiesModule,
   ContactStatusModule,
 } from 'src/app/components';
-import {Contact, contactStatusList, ContactStatus,} from 'src/app/types/contact';
 import {DxDropDownButtonTypes} from 'devextreme-angular/ui/drop-down-button';
 import DataSource from 'devextreme/data/data_source';
 import {CommonModule} from '@angular/common';
@@ -38,22 +37,18 @@ import {
   NEW_CLIENTE,
   UPDATE_CLIENTE_BY_ID
 } from "../../../graphql/clientes.graphql.operations";
-import {ApolloQueryResult} from '@apollo/client/core';
 import {ClienteNewFormModule} from 'src/app/components/library/cliente-new-form/cliente-new-form.component';
-import {newCliente} from 'src/app/types/clientes';
-import CustomStore from 'devextreme/data/custom_store';
-import {AppComponent} from 'src/app/app.component';
-
-type FilterContactStatus = ContactStatus | 'Todos';
 
 @Component({
-  templateUrl: 'clientes-list.component.html',
-  styleUrls: ['clientes-list.component.scss'],
+  templateUrl: 'funcionarios-list.component.html',
+  styleUrls: ['funcionarios-list.component.scss'],
   providers:[DataService]
 })
-export class ClientesListComponent {
-  @ViewChild('dataGridClientes') dataGrid: DxDataGridComponent;
 
+export class FuncionariosListComponent {
+  @ViewChild('dataGridCFuncionarios') dataGrid: DxDataGridComponent;
+
+  resource: string= 'Funcionario'
   ufRegex = /^[A-Z]{2}$/i;
   telefoneRegex = /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/;
   isPanelOpened = false;
@@ -62,12 +57,67 @@ export class ClientesListComponent {
 
   dataSource: DataSource;
 
+
+  funcionarioColumns: any[] = [
+    {
+      dataField: 'nome',
+      caption: 'Nome',
+      dataType: 'string',
+      validationRules: [{
+        type: 'required',
+        message: 'Campo obrigatório!'
+      }]
+    },
+    {
+      dataField: 'cargo',
+      caption: 'Cargo',
+      dataType: 'string',
+      validationRules: [{
+        type: 'required',
+        message: 'Campo obrigatório!'
+      }]
+    },
+    {
+      dataField: 'salario',
+      caption: 'Salário',
+      dataType: 'number',
+      format: { type: 'currency', currency: 'BRL', precision: 2 },
+      editorOptions: {
+        format: { type: 'currency', currency: 'BRL', precision: 2 }
+      },
+      validationRules: [{
+        type: 'required',
+        message: 'Campo obrigatório!'
+      }]
+    },
+    {
+      dataField: 'data_admissao',
+      caption: 'Data de Admissão',
+      dataType: 'date',
+      format: 'dd/MM/yyyy',
+      validationRules: [{
+        type: 'required',
+        message: 'Campo obrigatório!'
+      }]
+    },
+    {
+      dataField: 'departamento',
+      caption: 'Departamento',
+      dataType: 'string',
+      validationRules: [{
+        type: 'required',
+        message: 'Campo obrigatório!'
+      }]
+    },
+  ];
+
+
   constructor(private apollo: Apollo, private dataService: DataService) {
 
     this.dataSource = new DataSource({
       key: 'id',
-      load: () => this.dataService.getClientes().then((response) => {
-        const data = response.clientes;
+      load: () => this.dataService.get('findAllFuncionarios').then((response) => {
+        const data = response.funcionarios;
         return {
           data,
           totalCount: data.length,
@@ -75,39 +125,38 @@ export class ClientesListComponent {
       }),
 
       insert: (value): any => {
-        this.dataService.newCliente({value}).then((response) => {
-          notify('Cliente inserido com sucesso!', 'success');
+        this.dataService.post('newFuncionario', {value}).then((response) => {
+          notify( `${this.resource} inserido com sucesso!`, 'success');
           this.dataGrid.instance.refresh();
           this.dataSource.load();
         }).catch((e: any) => {
           debugger
-          notify('Erro ao cadastrar Cliente! ' + e, 'error');
+            notify(`Erro ao cadastrar ${this.resource} ` + e, 'error');
         })
       },
 
       update: (key, object): any => {
-        this.dataService.updateCliente(key, {object}).then((response) => {
-          notify('Cliente atualizado com sucesso!', 'success');
+        this.dataService.put('updateFuncionario/' + key, {object}).then((response) => {
+          notify(`${this.resource} atualizado com sucesso!`, 'success');
           this.dataGrid.instance.refresh();
           this.dataSource.load();
         }).catch((e: any) => {
-          debugger
-          notify('Erro ao atualizar Cliente! ' + e, 'error');
+
+          notify(`Erro ao atualizar ${this.resource} ` + e, 'error');
         })
       },
 
       remove: (key): any => {
-        this.dataService.deleteCliente(key).then((response) => {
-          notify('Cliente excluido com sucesso!', 'success');
+        this.dataService.delete('deleteFuncionarioById/' + key).then((response) => {
+          notify(`${this.resource} excluido com sucesso!`, 'success');
           this.dataGrid.instance.refresh();
           this.dataSource.load();
+          debugger
         }).catch((e: any) => {
           debugger
-          notify('Erro ao excluir Cliente! ' + e, 'error');
+          notify(`Erro ao excluir ${this.resource} ` + e, 'error');
         })
       },
-
-      // });
     });
   }
 
@@ -197,15 +246,6 @@ export class ClientesListComponent {
     this.dataGrid.instance.updateDimensions();
   };
 
-  filterByStatus = (e: DxDropDownButtonTypes.SelectionChangedEvent) => {
-    const {item: status}: { item: FilterContactStatus } = e;
-
-    if (status === 'Todos') {
-      this.dataGrid.instance.clearFilter();
-    } else {
-      this.dataGrid.instance.filter(['status', '=', status]);
-    }
-  };
 
   customizePhoneCell = ({value}) => value ? formatPhone(value) : undefined;
 
@@ -262,7 +302,7 @@ export class ClientesListComponent {
   ],
   providers: [],
   exports: [],
-  declarations: [ClientesListComponent],
+  declarations: [FuncionariosListComponent],
 })
 export class CrmContactListModule {
 }

@@ -1,7 +1,7 @@
 <div class="view-wrapper" style="margin: 15px">
 
   <dx-data-grid
-                #dataGridClientes
+                #dataGridCFuncionarios
                 noDataText=""
                 height="100%"
                 [dataSource]="this.dataSource"
@@ -31,7 +31,7 @@
 
     <dxo-search-panel
       [visible]="true"
-      placeholder="Pesquisar clientes"
+      placeholder="Pesquisar Funcioarios"
     ></dxo-search-panel>
     <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 
@@ -42,55 +42,15 @@
     >
     </dxo-export>
 
-    <dxi-column
-      dataField="nome_completo"
-      caption="Nome Completo"
-      sortOrder="asc"
-    >
-      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
-    </dxi-column>
-
-    <dxi-column
-      dataField="email"
-      caption="Email"
-    >
-      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
-      <!--      <dxi-validation-rule type="email" message="Campo inválido!"></dxi-validation-rule>-->
-    </dxi-column>
-
-    <dxi-column
-      dataField="telefone"
-      caption="Telefone"
-      [customizeText]="customizePhoneCell"
-    >
-      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
-    </dxi-column>
-
-    <dxi-column
-      dataField="endereco"
-      caption="Endereço"
-    >
-      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
-    </dxi-column>
-
-    <dxi-column
-      dataField="cidade"
-      caption="Cidade"
-    >
-      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
-    </dxi-column>
-
-    <dxi-column
-      dataField="uf"
-      caption="UF"
-      [width]="80"
-    >
-
-      <dxi-validation-rule type="required" message="Campo obrigatório!"></dxi-validation-rule>
-      <dxi-validation-rule
-        type="pattern"
-        [pattern]="ufRegex"
-        message="Sigla Estado formato inválido (deve conter 2 caracteres)">
+    <dxi-column *ngFor="let column of funcionarioColumns"
+                [dataField]="column.dataField"
+                [caption]="column.caption"
+                [dataType]="column.dataType"
+                [format]="column.format"
+                [editorOptions]="column.editorOptions">
+      <dxi-validation-rule *ngIf="column.validationRules"
+                           [type]="column.validationRules[0].type"
+                           [message]="column.validationRules[0].message">
       </dxi-validation-rule>
     </dxi-column>
 

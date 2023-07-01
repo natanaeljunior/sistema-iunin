@@ -21,24 +21,26 @@ export const navigation = [
   {
     text: 'Clientes',
     icon: 'user',
-    path: '',
-    items: [
-      {
-        text: 'Listar',
-        path: '/clientes',
-      },
-    ],
+    path: '/clientes',
+    // items: [
+    //   {
+    //     icon: 'bulletlist',
+    //     text: 'Listar',
+    //     path: '/clientes',
+    //   },
+    // ],
   },
   {
     text: 'Funcionarios',
-    icon: 'user',
-    path: '',
-    items: [
-      {
-        text: 'Listar',
-        path: '/funcionarios',
-      },
-    ],
+    icon: 'card',
+    path: '/funcionarios',
+    // items: [
+    //   {
+    //     icon: 'bulletlist',
+    //     text: 'Listar',
+    //     path: '/funcionarios',
+    //   },
+    // ],
   },
   {
     text: 'Planejamento',

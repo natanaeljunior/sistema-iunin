@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { DateTime } from 'luxon';
 import {
@@ -12,35 +12,87 @@ import { Task } from 'src/app/types/task';
 import { Contact } from 'src/app/types/contact';
 import { Sale, SalesOrOpportunitiesByCategory } from '../types/analytics';
 
-const API_URL = 'https://js.devexpress.com/Demos/RwaService/api';
+const API_URL_DEV = 'https://js.devexpress.com/Demos/RwaService/api';
+const API_URL = 'https://iunin-db.hasura.app/api/rest/';
+const HASURA_ADMIN_SECRET = 'WFqFEfhszLsH2e5944NGyVYy0tq98MMV63cuYiQXMKSuYuKWKqenrfLRq1dEup9W';
 
 @Injectable()
 export class DataService {
   constructor(private http: HttpClient) {}
 
-  public getClientes = () =>
-    this.http.get<Contact[]>(`${API_URL}/Users/Contacts`);
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders().set('x-hasura-admin-secret', HASURA_ADMIN_SECRET);
+  }
+
+  get(endpoint:string): any {
+    const url = API_URL + endpoint;
+    const headers = this.getHeaders();
+    return this.http.get<any>(url, {headers}).toPromise()
+  }
+
+  post(endpoint:string, body: any): any {
+    const url = API_URL + endpoint;
+    const headers = this.getHeaders();
+    return this.http.post<any>(url, body, {headers}).toPromise();
+  }
+
+
+  put(endpoint:string, body: any): any {
+    const url = API_URL + endpoint;
+    const headers = this.getHeaders();
+    return this.http.put<any>(url, body, { headers }).toPromise();
+  }
+
+  delete(endpoint: string): any {
+    const url = API_URL + endpoint;
+    const headers = this.getHeaders();
+    return this.http.delete<any>(url, { headers }).toPromise();
+  }
+
+   getClientes(): any {
+    const url = API_URL + 'findAllClientes';
+    const headers = this.getHeaders();
+    return this.http.get<any>(url, {headers}).toPromise()
+  }
+
+  newCliente(value: any): any {
+    const url = API_URL + 'newCliente';
+    const headers = this.getHeaders();
+    return this.http.post<any>(url, value, {headers}).toPromise();
+  }
+
+  updateCliente(id: string, object: any): any {
+    const url = API_URL + 'updateCliente/' + id;
+    const headers = this.getHeaders();
+    return this.http.put<any>(url, object, { headers }).toPromise();
+  }
+
+  deleteCliente(id: string): any {
+    const url = API_URL + 'deleteCliente/' + id;
+    const headers = this.getHeaders();
+    return this.http.delete<any>(url, { headers }).toPromise();
+  }
 
   public getContacts = () =>
-    this.http.get<Contact[]>(`${API_URL}/Users/Contacts`);
+    this.http.get<Contact[]>(`${API_URL_DEV}/Users/Contacts`);
 
   public getContact = (id: number) =>
-    this.http.get<Contact>(`${API_URL}/Users/Contacts/${id}`);
+    this.http.get<Contact>(`${API_URL_DEV}/Users/Contacts/${id}`);
 
   public getTasks = (): Observable<Task[]> =>
-    this.http.get<Task[]>(`${API_URL}/Employees/AllTasks`);
+    this.http.get<Task[]>(`${API_URL_DEV}/Employees/AllTasks`);
 
   public getFilteredTasks = (): Observable<Task[]> =>
-    this.http.get<Task[]>(`${API_URL}/Employees/FilteredTasks`);
+    this.http.get<Task[]>(`${API_URL_DEV}/Employees/FilteredTasks`);
 
   public getTask = (id: number): Observable<Task> =>
-    this.http.get<Task>(`${API_URL}/Employees/Tasks/${id}`);
+    this.http.get<Task>(`${API_URL_DEV}/Employees/Tasks/${id}`);
 
   public getContactNotes = (id: number) =>
-    this.http.get(`${API_URL}/Users/Contacts/${id}/Notes`);
+    this.http.get(`${API_URL_DEV}/Users/Contacts/${id}/Notes`);
 
   public getContactMessages = (id: number) =>
-    this.http.get(`${API_URL}/Users/Contacts/${id}/Messages`);
+    this.http.get(`${API_URL_DEV}/Users/Contacts/${id}/Messages`);
 
   public getActiveContactOpportunities = (id: number) =>
     this.getContactOpportunities(id, true);
@@ -49,7 +101,7 @@ export class DataService {
     this.getContactOpportunities(id, false);
 
   public getContactOpportunities = (id: number, isActive: boolean) => this.http
-    .get<any>(`${API_URL}/Users/Contacts/${id}/Opportunities`)
+    .get<any>(`${API_URL_DEV}/Users/Contacts/${id}/Opportunities`)
     .pipe(
       map((data) => data.filter((_: any, index: number) => {
         const isEven = index % 2 === 0;
@@ -58,7 +110,7 @@ export class DataService {
     );
 
   public getSalesByStateAndCity = (startDate: string, endDate: string) => this.http
-    .get(`${API_URL}/Analytics/SalesByStateAndCity/${startDate}/${endDate}`);
+    .get(`${API_URL_DEV}/Analytics/SalesByStateAndCity/${startDate}/${endDate}`);
 
   public getSalesByState = (data) => {
     let dataByState;
@@ -90,19 +142,19 @@ export class DataService {
   };
 
   public getOpportunitiesByCategory = (startDate: string, endDate: string) => this.http
-    .get<SalesOrOpportunitiesByCategory>(`${API_URL}/Analytics/OpportunitiesByCategory/${startDate}/${endDate}`);
+    .get<SalesOrOpportunitiesByCategory>(`${API_URL_DEV}/Analytics/OpportunitiesByCategory/${startDate}/${endDate}`);
 
   public getSalesByCategory = (startDate: string, endDate: string) => this.http
-    .get<SalesOrOpportunitiesByCategory>(`${API_URL}/Analytics/SalesByCategory/${startDate}/${endDate}`);
+    .get<SalesOrOpportunitiesByCategory>(`${API_URL_DEV}/Analytics/SalesByCategory/${startDate}/${endDate}`);
 
   public getSalesByOrderDate = (groupByPeriod: string) => this.http
-    .get<Sale[]>(`${API_URL}/Analytics/SalesByOrderDate/${groupByPeriod}`);
+    .get<Sale[]>(`${API_URL_DEV}/Analytics/SalesByOrderDate/${groupByPeriod}`);
 
   public getSales = (startDate: string, endDate: string) => this.http
-    .get<Sale[]>(`${API_URL}/Analytics/Sales/${startDate}/${endDate}`);
+    .get<Sale[]>(`${API_URL_DEV}/Analytics/Sales/${startDate}/${endDate}`);
 
   public getProfile = (id: number) =>
-    this.http.get<Record<string, any>>(`${API_URL}/Users/Contacts/${id}`).pipe(
+    this.http.get<Record<string, any>>(`${API_URL_DEV}/Users/Contacts/${id}`).pipe(
       map((data)=> {
         data.gender = id == 22 ? 'female' : null;
         data.birthDate = new Date('1980/05/03');

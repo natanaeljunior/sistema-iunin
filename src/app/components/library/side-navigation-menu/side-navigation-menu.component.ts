@@ -32,6 +32,7 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
   get compactMode() {
     return this._compactMode;
   }
+  @Input() menuOpened:boolean = true;
 
   @Input()
   set selectedItem(value: String) {
@@ -61,7 +62,19 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
 
   private _items!: Record <string, unknown>[];
 
-  get items() {
+  filteredItems: any[] = []; // Variável para armazenar os itens filtrados do menu
+
+  searchValueChanged(event: any) {
+    // Aqui você pode realizar a lógica para filtrar os itens do menu com base no valor da pesquisa
+    // Por exemplo, você pode atualizar uma propriedade `filteredItems` com os itens filtrados
+    // e usá-la na diretiva `*ngFor` para exibir apenas os itens filtrados no menu
+
+    // Exemplo de implementação de filtragem dos itens:
+    this.filteredItems = this.items.filter(item => item.text.toLowerCase().includes(event.toLowerCase()));
+  }
+
+
+  get items():any {
     if (!this._items) {
       this._items = navigation.map((item) => {
         if (item.path && !(/^\//.test(item.path))) {
