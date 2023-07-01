@@ -25,6 +25,7 @@ import { AppResetPasswordComponent } from './pages/reset-password-form/reset-pas
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import {ClientesListComponent} from "./pages/clientes-list/clientes-list.component";
 import {FuncionariosListComponent} from "./pages/funcionarios-list/funcionarios-list.component";
+import {ProdutoresListComponent} from "./pages/produtores-list/produtores-list.component";
 
 const routes: Routes = [
   {
@@ -70,6 +71,16 @@ const routes: Routes = [
       {
         path: 'funcionarios',
         component: FuncionariosListComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'produtores',
+        component: ProdutoresListComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'analises',
+        component: ProdutoresListComponent,
         canActivate: [AuthGuardService],
       },
       {

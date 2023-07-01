@@ -40,15 +40,15 @@ import {
 import {ClienteNewFormModule} from 'src/app/components/library/cliente-new-form/cliente-new-form.component';
 
 @Component({
-  templateUrl: 'funcionarios-list.component.html',
-  styleUrls: ['funcionarios-list.component.scss'],
+  templateUrl: 'produtores-list.component.html',
+  styleUrls: ['produtores-list.component.scss'],
   providers:[DataService]
 })
 
-export class FuncionariosListComponent {
-  @ViewChild('dataGridFuncionarios') dataGrid: DxDataGridComponent;
+export class ProdutoresListComponent {
+  @ViewChild('dataGridProdutores') dataGrid: DxDataGridComponent;
 
-  resource: string= 'Funcionario'
+  resource: string= 'Produtor';
   ufRegex = /^[A-Z]{2}$/i;
   telefoneRegex = /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/;
   isPanelOpened = false;
@@ -58,57 +58,77 @@ export class FuncionariosListComponent {
   dataSource: DataSource;
 
 
-  funcionarioColumns: any[] = [
+  produtoresColumns: any[] = [
     {
       dataField: 'nome',
       caption: 'Nome',
       dataType: 'string',
-      validationRules: [{
-        type: 'required',
-        message: 'Campo obrigatório!'
-      }]
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
     },
     {
-      dataField: 'cargo',
-      caption: 'Cargo',
+      dataField: 'endereco',
+      caption: 'Endereço',
       dataType: 'string',
-      validationRules: [{
-        type: 'required',
-        message: 'Campo obrigatório!'
-      }]
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
     },
     {
-      dataField: 'salario',
-      caption: 'Salário',
-      dataType: 'number',
-      format: { type: 'currency', currency: 'BRL', precision: 2 },
-      editorOptions: {
-        format: { type: 'currency', currency: 'BRL', precision: 2 }
-      },
-      validationRules: [{
-        type: 'required',
-        message: 'Campo obrigatório!'
-      }]
-    },
-    {
-      dataField: 'data_admissao',
-      caption: 'Data de Admissão',
-      dataType: 'date',
-      format: 'dd/MM/yyyy',
-      validationRules: [{
-        type: 'required',
-        message: 'Campo obrigatório!'
-      }]
-    },
-    {
-      dataField: 'departamento',
-      caption: 'Departamento',
+      dataField: 'cidade',
+      caption: 'Cidade',
       dataType: 'string',
-      validationRules: [{
-        type: 'required',
-        message: 'Campo obrigatório!'
-      }]
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
     },
+    {
+      dataField: 'uf',
+      caption: 'UF',
+      dataType: 'string',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
+    {
+      dataField: 'telefone',
+      caption: 'Telefone',
+      dataType: 'string',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
+    {
+      dataField: 'email',
+      caption: 'Email',
+      dataType: 'string',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        },
+        {
+          type: 'email',
+          message: 'Email inválido!'
+        }
+      ]
+    }
   ];
 
 
@@ -116,19 +136,19 @@ export class FuncionariosListComponent {
 
     this.dataSource = new DataSource({
       key: 'id',
-      load: () => this.dataService.get('findAllFuncionarios').then((response) => {
-        const data = response.funcionarios;
+      load: () => this.dataService.get('findAllProdutores').then((response) => {
+        debugger
+        const data = response.produtores;
         return {
           data,
           totalCount: data.length,
         };
       }),
 
-      insert: (value): any => {
-        this.dataService.post('newFuncionario', {value}).then((response) => {
+      insert: (object): any => {
+        this.dataService.post('newProdutor', {object}).then((response) => {
           notify( `${this.resource} inserido com sucesso!`, 'success');
-          this.dataGrid.instance.refresh();
-          this.dataSource.load();
+          this.refresh();
         }).catch((e: any) => {
           debugger
             notify(`Erro ao cadastrar ${this.resource} ` + e, 'error');
@@ -136,10 +156,9 @@ export class FuncionariosListComponent {
       },
 
       update: (key, object): any => {
-        this.dataService.put('updateFuncionario/' + key, {object}).then((response) => {
+        this.dataService.put('updateProdutor/' + key, {object}).then((response) => {
           notify(`${this.resource} atualizado com sucesso!`, 'success');
-          this.dataGrid.instance.refresh();
-          this.dataSource.load();
+          this.refresh();
         }).catch((e: any) => {
 
           notify(`Erro ao atualizar ${this.resource} ` + e, 'error');
@@ -147,11 +166,9 @@ export class FuncionariosListComponent {
       },
 
       remove: (key): any => {
-        this.dataService.delete('deleteFuncionarioById/' + key).then((response) => {
+        this.dataService.delete('deleteProdutorById/' + key).then((response) => {
           notify(`${this.resource} excluido com sucesso!`, 'success');
-          this.dataGrid.instance.refresh();
-          this.dataSource.load();
-          debugger
+          this.refresh();
         }).catch((e: any) => {
           debugger
           notify(`Erro ao excluir ${this.resource} ` + e, 'error');
@@ -160,73 +177,9 @@ export class FuncionariosListComponent {
     });
   }
 
-
-  async insert(values: any): Promise<any> {
-    try {
-      const result = await this.apollo.mutate({
-        mutation: NEW_CLIENTE,
-        variables: {
-          object: values,
-        },
-      }).toPromise();
-
-      notify('Cliente inserido com sucesso!', 'success');
-
-      this.dataGrid.instance.refresh();
-      debugger;
-      return result.data['insert_clientes_one'];
-    } catch (e) {
-      notify('Erro ao cadastrar Cliente!', 'error');
-      throw e;
-    }
-  }
-
-  async update(key: any, values: any): Promise<any> {
-    try {
-      const result = await this.apollo.mutate({
-        mutation: UPDATE_CLIENTE_BY_ID,
-        variables: {
-          id: key,
-          fields: values,
-        },
-      }).toPromise();
-
-      notify('Cliente atualizado com sucesso!', 'success');
-      debugger;
-
-      return result;
-    } catch (e) {
-      notify('Erro ao atualizar Cliente!', 'error');
-      throw e;
-    }
-  }
-
-  async remove(key: any): Promise<any> {
-    try {
-      const result = await this.apollo.mutate({
-        mutation: DELETE_CLIENTE_BY_ID,
-        variables: {
-          id: key,
-        },
-      }).toPromise();
-
-      notify('Cliente excluído com sucesso!', 'success');
-      debugger;
-
-      return result.data['delete_clientes_by_pk'].id;
-    } catch (e) {
-      notify('Erro ao excluir Cliente!', 'error');
-      throw e;
-    }
-  }
-
-  showAddCliente() {
-    this.isAddClientePopupOpened = true;
-  }
-
   refresh = () => {
-    this.dataSource.reload();
     this.dataGrid.instance.refresh();
+    this.dataSource.load();
   };
 
   rowClick(e: DxDataGridTypes.RowClickEvent) {
@@ -302,7 +255,7 @@ export class FuncionariosListComponent {
   ],
   providers: [],
   exports: [],
-  declarations: [FuncionariosListComponent],
+  declarations: [ProdutoresListComponent],
 })
 export class CrmContactListModule {
 }

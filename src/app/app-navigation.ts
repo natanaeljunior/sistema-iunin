@@ -43,6 +43,32 @@ export const navigation = [
     // ],
   },
   {
+    text: 'Produtores',
+    icon: 'user',
+    path: '/produtores',
+    // items: [
+    //   {
+    //     icon: 'bulletlist',
+    //     text: 'Listar',
+    //     path: '/funcionarios',
+    //   },
+    // ],
+  },
+
+  {
+    text: 'Análises',
+    icon: 'user',
+    path: '/analises',
+    // items: [
+    //   {
+    //     icon: 'bulletlist',
+    //     text: 'Listar',
+    //     path: '/funcionarios',
+    //   },
+    // ],
+  },
+
+  {
     text: 'Planejamento',
     icon: 'event',
     path: '',
