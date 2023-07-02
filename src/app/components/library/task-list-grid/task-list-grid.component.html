@@ -8,7 +8,7 @@
   (onEditCanceled)="toogleUseNavigation()"
   (onSaved)="toogleUseNavigation()"
   [hoverStateEnabled]="true"
-  [editing]="{allowAdding:true,  allowDeleting:true, allowUpdating:true   }"
+  [editing]="{allowAdding:true,  allowDeleting:true, allowUpdating:true, mode:'form',  useIcons:true  }"
   [columnAutoWidth]="true"
 >
   <dxo-paging [pageSize]="15"></dxo-paging>
@@ -21,17 +21,16 @@
   ></dxo-selection>
   <dxo-scrolling mode="virtual"></dxo-scrolling>
   <dxo-sorting mode="multiple"></dxo-sorting>
-  <dxo-header-filter [visible]="true"></dxo-header-filter>
 
-  <dxi-column dataField="text" caption="Subject" [hidingPriority]="7">
+  <dxi-column dataField="text" caption="Assunto" [hidingPriority]="7">
     <dxi-validation-rule type="required"></dxi-validation-rule>
   </dxi-column>
-  <dxi-column dataField="company" caption="Company" [hidingPriority]="6">
+  <dxi-column dataField="company" caption="Empresa" [hidingPriority]="6">
     <dxi-validation-rule type="required"></dxi-validation-rule>
   </dxi-column>
   <dxi-column
     dataField="priority"
-    caption="Priority"
+    caption="Prioridade"
     [hidingPriority]="4"
     cellTemplate="cellPriority"
     editCellTemplate="editCellPriority"
@@ -41,7 +40,7 @@
   </dxi-column>
   <dxi-column
     dataField="startDate"
-    caption="Start Date"
+    caption="Data Início"
     dataType="date"
     [hidingPriority]="2"
   >
@@ -49,7 +48,7 @@
   </dxi-column>
   <dxi-column
     dataField="dueDate"
-    caption="Due Date"
+    caption="Data Fim"
     dataType="date"
     sortOrder="asc"
     [hidingPriority]="1"

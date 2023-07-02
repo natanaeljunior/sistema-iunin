@@ -36,9 +36,7 @@ export class TaskListKanbanComponent implements OnChanges {
   statuses = taskStatusList;
 
   boardMenuItems: Array<{ text: string }> = [
-    { text: 'Add card' },
-    { text: 'Copy list' },
-    { text: 'Move list' },
+    { text: 'Novo Plano Ação' },
   ];
 
   refresh() {

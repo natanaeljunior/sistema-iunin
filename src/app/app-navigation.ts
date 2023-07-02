@@ -85,19 +85,17 @@ export const navigation = [
 
   {
     text: 'Planejamento',
-    icon: 'event',
-    path: '',
+    icon: 'bulletlist',
+    path: '/planejamento',
     items: [
       {
-        text: 'Listar',
-        path: '/planejamento',
-      },
-      {
-        text: 'Task Details',
+        icon:'detailslayout',
+        text: 'Detalhes',
         path: '/planning-task-details',
       },
       {
         text: 'Agenda',
+        icon: 'event',
         path: '/agenda',
       },
     ],
