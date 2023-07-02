@@ -6,7 +6,9 @@
         class="user-image"
       ></div>
     </div>
-    <div class="user-name">{{ user?.name }}</div>
+    <a href="#/user-profile" style="text-decoration: none">
+      <div class="user-name">  <i [class]="'dx-icon-user'"></i>{{ user?.name }}</div>
+    </a>
   </div>
   <dx-list
     #userInfoList

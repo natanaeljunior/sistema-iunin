@@ -5,6 +5,8 @@
                 noDataText=""
                 height="100%"
                 [dataSource]="this.dataSource"
+                [allowColumnResizing]="true"
+                [columnAutoWidth]="true"
                 [allowColumnReordering]="true"
                 [focusedRowEnabled]="true"
                 (onRowClick)="rowClick($event)"

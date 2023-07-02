@@ -35,7 +35,8 @@ export class AppHeaderComponent implements OnInit {
     onClick: () => {
       this.authService.logOut();
     },
-  }];
+  },
+  ];
 
   constructor(private authService: AuthService) { }
 

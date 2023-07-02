@@ -8,8 +8,6 @@ import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import notify from 'devextreme/ui/notify';
 import { AuthService, IResponse, ThemeService } from 'src/app/services';
-import {UsuarioService} from "../../../services/usuario.service";
-import {UsuarioModel} from "../../../models/usuario.model";
 import { Apollo } from 'apollo-angular';
 import {GET_POSTS_BY_USERNAME, NEW_USUARIO} from 'src/graphql/graphql.operations';
 
@@ -21,7 +19,7 @@ import {GET_POSTS_BY_USERNAME, NEW_USUARIO} from 'src/graphql/graphql.operations
 export class LoginFormComponent implements OnInit {
   @Input() resetLink = '/auth/reset-password';
   @Input() createAccountLink = '/auth/create-account';
-  usuario: UsuarioModel;
+
   defaultAuthData: IResponse;
 
   btnStylingMode: string;
