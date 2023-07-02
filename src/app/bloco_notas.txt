@@ -1,34 +1,32 @@
 
 
-mutation deleteControleVacinacao($id: uuid!) {
-  delete_controles_vacinacao_by_pk(id: $id){
+mutation deleteParametroAnalise($id: uuid!) {
+  delete_parametros_analises_by_pk(id: $id){
     id
   }
 }
 
 
-mutation updateControleVacinacao($object: controles_vacinacao_set_input, $id: uuid!) {
-  update_controles_vacinacao_by_pk(pk_columns: {id: $id}, _set: $object) {
+mutation updateParametroAnalise($object: parametros_analises_set_input, $id: uuid!) {
+  update_parametros_analises_by_pk(pk_columns: {id: $id}, _set: $object) {
     id
   }
 }
 
-mutation newControleVacinacao($object: controles_vacinacao_insert_input!) {
-  insert_controles_vacinacao_one(object: $object) {
+mutation newParametroAnalise($object: parametros_analises_insert_input!) {
+  insert_parametros_analises_one(object: $object) {
     id
   }
 }
 
 
-query findAllControleVacinacao {
-  controles_vacinacao {
+query findAllParametrosAnalises {
+  parametros_analises {
     id
-    nome_controle
-    nome_vacina
-    info_dose
-    data_vacinacao
-    data_vencimento
-    produtor_responsavel
+    nome_parametro
+    descricao
+    valor_referencia
+    polaridade
     created_at
     updated_at
   }

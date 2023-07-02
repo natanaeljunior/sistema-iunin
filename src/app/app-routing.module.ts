@@ -29,6 +29,7 @@ import {ProdutoresListComponent} from "./pages/produtores-list/produtores-list.c
 import {AnaliseLeiteListComponent} from "./pages/analise-leite-list/analise-leite-list.component";
 import {AnaliseProdutoListComponent} from "./pages/analise-produto-list/analise-produto-list.component";
 import {ControleVacinacaoListComponent} from "./pages/controle-vacinacao-list/controle-vacinacao-list.component";
+import {ParametroAnaliseListComponent} from "./pages/parametros_analises-list/parametro-analise-list.component";
 
 const routes: Routes = [
   {
@@ -105,8 +106,8 @@ const routes: Routes = [
       },
 
       {
-        path: 'analise/parâmetros',
-        component: ClientesListComponent,
+        path: 'analise/parametros',
+        component: ParametroAnaliseListComponent,
         canActivate: [AuthGuardService],
       },
       {
