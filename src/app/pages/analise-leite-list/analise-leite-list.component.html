@@ -1,0 +1,63 @@
+<div class="view-wrapper" style="margin: 15px">
+
+  <dx-data-grid
+                #dataGridAnaliseLeite
+                noDataText=""
+                height="100%"
+                [dataSource]="this.dataSource"
+                [allowColumnReordering]="true"
+                [focusedRowEnabled]="true"
+                (onRowClick)="rowClick($event)"
+                (onExporting)="onExporting($event)"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="true"
+                [repaintChangesOnly]="true"
+                [editing]="{allowAdding:true, allowDeleting:true, allowUpdating:true, mode:'form', useIcons:true, refreshMode: 'full'}"
+  >
+
+    <dxo-paging [pageSize]="15"></dxo-paging>
+    <dxo-pager [visible]="true" [showPageSizeSelector]="true"></dxo-pager>
+    <dxo-header-filter [visible]="false"></dxo-header-filter>
+    <dxo-filter-row  [visible]="true" ></dxo-filter-row>
+<!--    <dxo-load-panel [showPane]="true"></dxo-load-panel>-->
+    <!--    <dxo-scrolling mode="virtual"></dxo-scrolling>-->
+    <dxo-selection
+      selectAllMode="allPages"
+      showCheckBoxesMode="always"
+      mode="single"
+    ></dxo-selection>
+    <dxo-sorting mode="multiple"></dxo-sorting>
+
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="Pesquisar Análises"
+    ></dxo-search-panel>
+    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+    <dxo-export
+      [enabled]="true"
+      [allowExportSelectedData]="true"
+      [formats]="['xlsx', 'pdf']"
+    >
+    </dxo-export>
+
+    <dxi-column *ngFor="let column of analiseLeiteColumns"
+                [dataField]="column.dataField"
+                [caption]="column.caption"
+                [dataType]="column.dataType"
+                [format]="column.format"
+                [editorOptions]="column.editorOptions">
+      <dxi-validation-rule *ngIf="column.validationRules"
+                           [type]="column.validationRules[0].type"
+                           [message]="column.validationRules[0].message">
+      </dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column caption="Ações" type="buttons" [width]="110">
+      <dxi-button name="edit"></dxi-button>
+      <dxi-button name="delete"></dxi-button>
+    </dxi-column>
+
+  </dx-data-grid>
+</div>

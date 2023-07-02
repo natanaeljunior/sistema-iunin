@@ -43,6 +43,12 @@ export class DataService {
     return this.http.put<any>(url, body, { headers }).toPromise();
   }
 
+  patch(endpoint:string, body: any): any {
+    const url = API_URL + endpoint;
+    const headers = this.getHeaders();
+    return this.http.patch<any>(url, body, { headers }).toPromise();
+  }
+
   delete(endpoint: string): any {
     const url = API_URL + endpoint;
     const headers = this.getHeaders();

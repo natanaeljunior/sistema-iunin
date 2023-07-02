@@ -57,15 +57,30 @@ export const navigation = [
 
   {
     text: 'Análises',
-    icon: 'user',
-    path: '/analises',
-    // items: [
-    //   {
-    //     icon: 'bulletlist',
-    //     text: 'Listar',
-    //     path: '/funcionarios',
-    //   },
-    // ],
+    icon: 'warning',
+    path: '/analise',
+    items: [
+      {
+        icon: 'fill',
+        text: 'Leite',
+        path: '/analise/leite',
+      },
+      {
+        icon: 'product',
+        text: 'Produto',
+        path: '/analise/produto',
+      },
+      {
+        icon: 'unpin',
+        text: 'Vacinação',
+        path: '/analise/vacinacao',
+      },
+      {
+        icon: 'preferences',
+        text: 'Parâmetros',
+        path: '/analise/parametros',
+      },
+    ],
   },
 
   {
