@@ -40,15 +40,15 @@ import {
 import {ClienteNewFormModule} from 'src/app/components/library/cliente-new-form/cliente-new-form.component';
 
 @Component({
-  templateUrl: 'analise-leite-list.component.html',
-  styleUrls: ['analise-leite-list.component.scss'],
+  templateUrl: 'controle-vacinacao-list.component.html',
+  styleUrls: ['controle-vacinacao-list.component.scss'],
   providers:[DataService]
 })
 
-export class AnaliseLeiteListComponent {
-  @ViewChild('dataGridAnaliseLeite') dataGrid: DxDataGridComponent;
+export class ControleVacinacaoListComponent {
+  @ViewChild('dataGridControleVacinacao') dataGrid: DxDataGridComponent;
 
-  resource: string= 'Análise Leite';
+  resource: string= 'Controle Vacinação';
   ufRegex = /^[A-Z]{2}$/i;
   telefoneRegex = /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/;
   isPanelOpened = false;
@@ -57,57 +57,67 @@ export class AnaliseLeiteListComponent {
 
   dataSource: DataSource;
 
+  controleLeiteColumns: any[] = [
+    {
+      dataField: 'nome_controle',
+      caption: 'Nome Controle',
+      dataType: 'string',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
+    {
+      dataField: 'nome_vacina',
+      caption: 'Nome Vacina',
+      dataType: 'string',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
+    {
+      dataField: 'info_dose',
+      caption: 'Dose',
+      dataType: 'string',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
+    {
+      dataField: 'data_vacinacao',
+      caption: 'Data Vacinação',
+      dataType: 'date',
+      default: 'now',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
+    {
+      dataField: 'data_vencimento',
+      caption: 'Data Vencimento',
+      dataType: 'date',
+      validationRules: [
+        {
+          type: 'required',
+          message: 'Campo obrigatório!'
+        }
+      ]
+    },
 
-  analiseLeiteColumns: any[] = [
     {
-      dataField: 'origem_amostra',
-      caption: 'Origem da Amostra',
-      dataType: 'string',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'tipo_analise',
-      caption: 'Tipo Análise',
-      dataType: 'string',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'data_coleta',
-      caption: 'Data Coleta',
-      dataType: 'date',
-      default: 'now',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'data_avaliacao',
-      caption: 'Data Avaliação',
-      dataType: 'date',
-      default: 'now',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'avaliador_responsavel',
-      caption: 'Avaliador Responsavel',
+      dataField: 'produtor_responsavel',
+      caption: 'Produtor Responsavel',
       dataType: 'text',
       validationRules: [
         {
@@ -115,41 +125,7 @@ export class AnaliseLeiteListComponent {
           message: 'Campo obrigatório!'
         }
       ]
-    },
-
-    {
-      dataField: 'ccs',
-      caption: 'Contagem de Células Somáticas',
-      dataType: 'number',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'cbt',
-      caption: 'Contagem Bacteriana Total',
-      dataType: 'number',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'ph',
-      caption: 'pH',
-      dataType: 'number',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
+    }
   ];
 
 
@@ -157,8 +133,8 @@ export class AnaliseLeiteListComponent {
 
     this.dataSource = new DataSource({
       key: 'id',
-      load: () => this.dataService.get('findAllAnalisesLeite').then((response) => {
-        const data = response.analises_leite;
+      load: () => this.dataService.get('findAllControleVacinacao').then((response) => {
+        const data = response.controles_vacinacao;
         return {
           data,
           totalCount: data.length,
@@ -166,7 +142,7 @@ export class AnaliseLeiteListComponent {
       }),
 
       insert: (object): any => {
-        this.dataService.post('newAnaliseLeite', {object}).then((response) => {
+        this.dataService.post('newControleVacinacao', {object}).then((response) => {
           notify( `${this.resource} inserido com sucesso!`, 'success');
           this.refresh();
         }).catch((e: any) => {
@@ -176,7 +152,7 @@ export class AnaliseLeiteListComponent {
       },
 
       update: (key, object): any => {
-        this.dataService.patch('updateAnaliseLeite/' + key, {object}).then((response) => {
+        this.dataService.patch('updateControleVacinacao/' + key, {object}).then((response) => {
           notify(`${this.resource} atualizado com sucesso!`, 'success');
           this.refresh();
         }).catch((e: any) => {
@@ -186,7 +162,7 @@ export class AnaliseLeiteListComponent {
       },
 
       remove: (key): any => {
-        this.dataService.delete('deleteAnaliseLeite/' + key).then((response) => {
+        this.dataService.delete('deleteControleVacinacao/' + key).then((response) => {
           notify(`${this.resource} excluido com sucesso!`, 'success');
           this.refresh();
         }).catch((e: any) => {
@@ -247,13 +223,6 @@ export class AnaliseLeiteListComponent {
       e.cancel = true;
     }
   }
-
-  meuMetodo() {
-
-    this.dataSource.load();
-    this.dataGrid.instance.refresh();
-  }
-
 }
 
 @NgModule({
@@ -272,10 +241,11 @@ export class AnaliseLeiteListComponent {
     ContactStatusModule,
     DxToolbarModule,
     CommonModule,
+    DxToolbarModule,
   ],
   providers: [],
   exports: [],
-  declarations: [AnaliseLeiteListComponent],
+  declarations: [ControleVacinacaoListComponent],
 })
 export class CrmContactListModule {
 }

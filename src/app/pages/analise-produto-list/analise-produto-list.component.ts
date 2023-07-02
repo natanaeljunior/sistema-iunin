@@ -40,25 +40,24 @@ import {
 import {ClienteNewFormModule} from 'src/app/components/library/cliente-new-form/cliente-new-form.component';
 
 @Component({
-  templateUrl: 'analise-leite-list.component.html',
+  templateUrl: 'analise-produto-list.component.html',
   styleUrls: ['analise-leite-list.component.scss'],
   providers:[DataService]
 })
 
-export class AnaliseLeiteListComponent {
-  @ViewChild('dataGridAnaliseLeite') dataGrid: DxDataGridComponent;
+export class AnaliseProdutoListComponent {
+  @ViewChild('dataGridAnaliseProduto') dataGrid: DxDataGridComponent;
 
-  resource: string= 'Análise Leite';
+  resource: string= 'Análise Produto';
   ufRegex = /^[A-Z]{2}$/i;
   telefoneRegex = /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/;
   isPanelOpened = false;
-  isAddClientePopupOpened = false;
   userId: number;
 
   dataSource: DataSource;
 
 
-  analiseLeiteColumns: any[] = [
+  analiseProdutoColumns: any[] = [
     {
       dataField: 'origem_amostra',
       caption: 'Origem da Amostra',
@@ -116,29 +115,6 @@ export class AnaliseLeiteListComponent {
         }
       ]
     },
-
-    {
-      dataField: 'ccs',
-      caption: 'Contagem de Células Somáticas',
-      dataType: 'number',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
-    {
-      dataField: 'cbt',
-      caption: 'Contagem Bacteriana Total',
-      dataType: 'number',
-      validationRules: [
-        {
-          type: 'required',
-          message: 'Campo obrigatório!'
-        }
-      ]
-    },
     {
       dataField: 'ph',
       caption: 'pH',
@@ -157,8 +133,8 @@ export class AnaliseLeiteListComponent {
 
     this.dataSource = new DataSource({
       key: 'id',
-      load: () => this.dataService.get('findAllAnalisesLeite').then((response) => {
-        const data = response.analises_leite;
+      load: () => this.dataService.get('findAllAnalisesProduto').then((response) => {
+        const data = response.analises_produto;
         return {
           data,
           totalCount: data.length,
@@ -166,7 +142,7 @@ export class AnaliseLeiteListComponent {
       }),
 
       insert: (object): any => {
-        this.dataService.post('newAnaliseLeite', {object}).then((response) => {
+        this.dataService.post('newAnaliseProduto', {object}).then((response) => {
           notify( `${this.resource} inserido com sucesso!`, 'success');
           this.refresh();
         }).catch((e: any) => {
@@ -176,7 +152,7 @@ export class AnaliseLeiteListComponent {
       },
 
       update: (key, object): any => {
-        this.dataService.patch('updateAnaliseLeite/' + key, {object}).then((response) => {
+        this.dataService.patch('updateAnaliseProduto/' + key, {object}).then((response) => {
           notify(`${this.resource} atualizado com sucesso!`, 'success');
           this.refresh();
         }).catch((e: any) => {
@@ -186,7 +162,7 @@ export class AnaliseLeiteListComponent {
       },
 
       remove: (key): any => {
-        this.dataService.delete('deleteAnaliseLeite/' + key).then((response) => {
+        this.dataService.delete('deleteAnaliseProduto/' + key).then((response) => {
           notify(`${this.resource} excluido com sucesso!`, 'success');
           this.refresh();
         }).catch((e: any) => {
@@ -275,7 +251,7 @@ export class AnaliseLeiteListComponent {
   ],
   providers: [],
   exports: [],
-  declarations: [AnaliseLeiteListComponent],
+  declarations: [AnaliseProdutoListComponent],
 })
 export class CrmContactListModule {
 }

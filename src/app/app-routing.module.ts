@@ -27,6 +27,8 @@ import {ClientesListComponent} from "./pages/clientes-list/clientes-list.compone
 import {FuncionariosListComponent} from "./pages/funcionarios-list/funcionarios-list.component";
 import {ProdutoresListComponent} from "./pages/produtores-list/produtores-list.component";
 import {AnaliseLeiteListComponent} from "./pages/analise-leite-list/analise-leite-list.component";
+import {AnaliseProdutoListComponent} from "./pages/analise-produto-list/analise-produto-list.component";
+import {ControleVacinacaoListComponent} from "./pages/controle-vacinacao-list/controle-vacinacao-list.component";
 
 const routes: Routes = [
   {
@@ -92,13 +94,13 @@ const routes: Routes = [
       },
       {
         path: 'analise/produto',
-        component: ClientesListComponent,
+        component: AnaliseProdutoListComponent,
         canActivate: [AuthGuardService],
       },
 
       {
         path: 'analise/vacinacao',
-        component: ClientesListComponent,
+        component: ControleVacinacaoListComponent,
         canActivate: [AuthGuardService],
       },
 

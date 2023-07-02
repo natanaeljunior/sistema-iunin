@@ -1,7 +1,7 @@
 <div class="view-wrapper" style="margin: 5px">
 
   <dx-data-grid
-                #dataGridFuncionarios
+                #dataGridAnaliseProduto
                 noDataText=""
                 height="100%"
                 [dataSource]="this.dataSource"
@@ -31,7 +31,7 @@
 
     <dxo-search-panel
       [visible]="true"
-      placeholder="Pesquisar Funcioarios"
+      placeholder="Pesquisar Análises"
     ></dxo-search-panel>
     <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 
@@ -42,7 +42,7 @@
     >
     </dxo-export>
 
-    <dxi-column *ngFor="let column of funcionarioColumns"
+    <dxi-column *ngFor="let column of analiseProdutoColumns"
                 [dataField]="column.dataField"
                 [caption]="column.caption"
                 [dataType]="column.dataType"
@@ -60,12 +60,4 @@
     </dxi-column>
 
   </dx-data-grid>
-
-<!--  <contact-panel-->
-<!--    [userId]="userId"-->
-<!--    [(isOpened)]="isPanelOpened"-->
-<!--    (isOpenedChange)="onOpenedChange($event)"-->
-<!--    (pinnedChange)="onPinnedChange()"-->
-<!--  >-->
-<!--  </contact-panel>-->
 </div>
