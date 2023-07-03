@@ -175,7 +175,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'crm-contact-list',
+        redirectTo: 'analytics-dashboard',
         pathMatch: 'full',
       },
     ]
