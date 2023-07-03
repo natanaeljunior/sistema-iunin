@@ -14,15 +14,24 @@
                 [showBorders]="true"
                 [rowAlternationEnabled]="true"
                 [repaintChangesOnly]="true"
+                (onEditorPreparing)="editorPreparing($event)"
                 [editing]="{allowAdding:true, allowDeleting:true, allowUpdating:true, mode:'form', useIcons:true, refreshMode: 'full'}"
   >
 
     <dxo-paging [pageSize]="15"></dxo-paging>
-    <dxo-pager [visible]="true" [showPageSizeSelector]="true"></dxo-pager>
+    <dxo-pager
+      [visible]="true"
+      [showPageSizeSelector]="true"
+      [showNavigationButtons]="true"
+      [showInfo]="true">
+
+    </dxo-pager>
     <dxo-header-filter [visible]="false"></dxo-header-filter>
     <dxo-filter-row  [visible]="true" ></dxo-filter-row>
-<!--    <dxo-load-panel [showPane]="true"></dxo-load-panel>-->
-    <!--    <dxo-scrolling mode="virtual"></dxo-scrolling>-->
+    <dxo-grouping
+      [contextMenuEnabled]="true"
+      expandMode="rowClick"
+    ></dxo-grouping>
     <dxo-selection
       selectAllMode="allPages"
       showCheckBoxesMode="always"
@@ -43,12 +52,17 @@
     >
     </dxo-export>
 
+
     <dxi-column *ngFor="let column of controleLeiteColumns"
                 [dataField]="column.dataField"
                 [caption]="column.caption"
                 [dataType]="column.dataType"
                 [format]="column.format"
+                [encodeHtml]="false"
+                [sortOrder]="column.sortOrder"
+                [groupIndex]="column.groupIndex"
                 [editorOptions]="column.editorOptions">
+
       <dxi-validation-rule *ngIf="column.validationRules"
                            [type]="column.validationRules[0].type"
                            [message]="column.validationRules[0].message">

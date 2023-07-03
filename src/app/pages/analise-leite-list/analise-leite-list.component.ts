@@ -108,7 +108,7 @@ export class AnaliseLeiteListComponent {
     {
       dataField: 'avaliador_responsavel',
       caption: 'Avaliador Responsavel',
-      dataType: 'text',
+      dataType: 'string',
       validationRules: [
         {
           type: 'required',
@@ -119,7 +119,7 @@ export class AnaliseLeiteListComponent {
 
     {
       dataField: 'ccs',
-      caption: 'Contagem de Células Somáticas',
+      caption: 'CCS',
       dataType: 'number',
       validationRules: [
         {
@@ -130,7 +130,7 @@ export class AnaliseLeiteListComponent {
     },
     {
       dataField: 'cbt',
-      caption: 'Contagem Bacteriana Total',
+      caption: 'CBT',
       dataType: 'number',
       validationRules: [
         {

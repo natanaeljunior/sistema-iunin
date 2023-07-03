@@ -5,9 +5,9 @@
                 noDataText=""
                 height="100%"
                 [dataSource]="this.dataSource"
-                [allowColumnReordering]="true"
                 [allowColumnResizing]="true"
-                [columnAutoWidth]="true"
+                [allowColumnReordering]="true"
+                [columnResizingMode]="'widget'"
                 [focusedRowEnabled]="true"
                 (onRowClick)="rowClick($event)"
                 (onExporting)="onExporting($event)"
@@ -19,7 +19,14 @@
   >
 
     <dxo-paging [pageSize]="15"></dxo-paging>
-    <dxo-pager [visible]="true" [showPageSizeSelector]="true"></dxo-pager>
+    <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+    <dxo-pager
+      [visible]="true"
+      [showPageSizeSelector]="true"
+      [showNavigationButtons]="true"
+      [showInfo]="true">
+
+    </dxo-pager>
     <dxo-header-filter [visible]="false"></dxo-header-filter>
     <dxo-filter-row  [visible]="true" ></dxo-filter-row>
 <!--    <dxo-load-panel [showPane]="true"></dxo-load-panel>-->
@@ -60,6 +67,21 @@
       <dxi-button name="edit"></dxi-button>
       <dxi-button name="delete"></dxi-button>
     </dxi-column>
+
+
+    <dxo-summary>
+      <dxi-total-item column="origem_amostra" displayFormat="Total" alignment="center" ></dxi-total-item>
+      <dxi-total-item column="origem_amostra" summaryType="count" displayFormat="{0}" alignment="center"> </dxi-total-item>
+
+      <dxi-total-item column="data_coleta" displayFormat="Última Coleta" alignment="center" ></dxi-total-item>
+      <dxi-total-item column="data_coleta" summaryType="max"  valueFormat="dd/MM/yy" displayFormat="{0}" alignment="center"> </dxi-total-item>
+
+      <dxi-total-item column="data_avaliacao" displayFormat="Última Avaliação" alignment="center" ></dxi-total-item>
+      <dxi-total-item column="data_avaliacao" summaryType="max"  valueFormat="dd/MM/yy" displayFormat="{0}" alignment="center"> </dxi-total-item>
+
+      <dxi-total-item column="ph" displayFormat="Média" alignment="center" ></dxi-total-item>
+      <dxi-total-item column="ph" summaryType="avg" valueFormat="#.#" displayFormat="{0}" alignment="center"> </dxi-total-item>
+    </dxo-summary>
 
   </dx-data-grid>
 </div>

@@ -9,7 +9,7 @@ import {
   DxSelectBoxModule,
   DxTextBoxModule,
   DxValidatorModule,
-  DxValidationGroupModule, DxToolbarModule,
+  DxValidationGroupModule, DxToolbarModule, DxTemplateModule,
 } from 'devextreme-angular';
 import {DxDataGridTypes} from 'devextreme-angular/ui/data-grid';
 import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
@@ -107,6 +107,28 @@ export class ControleVacinacaoListComponent {
       dataField: 'data_vencimento',
       caption: 'Data Vencimento',
       dataType: 'date',
+      sortOrder: 'desc',
+      format: (cellData, rowData) => {
+        var currentDate = new Date(); // Obtém a data atual
+        var cellDate = new Date(cellData); // Converte o valor da célula para uma data
+
+        var day = cellDate.getDate().toString().padStart(2, '0'); // Obtém o dia com zero à esquerda
+        var month = (cellDate.getMonth() + 1).toString().padStart(2, '0'); // Obtém o mês com zero à esquerda
+        var year = cellDate.getFullYear().toString(); // Obtém o ano
+
+        var formattedDate = day + '/' + month + '/' + year;
+
+        if (cellDate < currentDate) {
+          return '<span style="color: red;">' + formattedDate + '</span>';
+        } else {
+          return '<span style="color: green;">' + formattedDate + '</span>';
+        }
+      },
+
+      editorOptions: {
+        displayFormat: 'shortDate'
+      },
+
       validationRules: [
         {
           type: 'required',
@@ -119,6 +141,7 @@ export class ControleVacinacaoListComponent {
       dataField: 'produtor_responsavel',
       caption: 'Produtor Responsavel',
       dataType: 'text',
+      groupIndex: 0,
       validationRules: [
         {
           type: 'required',
@@ -171,6 +194,11 @@ export class ControleVacinacaoListComponent {
         })
       },
     });
+  }
+
+  editorPreparing(e) {
+    if (e.dataField ==='data_vencimento') {
+    }
   }
 
   refresh = () => {
@@ -242,6 +270,7 @@ export class ControleVacinacaoListComponent {
     DxToolbarModule,
     CommonModule,
     DxToolbarModule,
+    DxTemplateModule
   ],
   providers: [],
   exports: [],
